@@ -534,7 +534,10 @@ impl<'h, 'b> Request<'h, 'b> {
             let headers: *mut [Header<'_>] = headers;
             let headers = headers as *mut [MaybeUninit<Header<'_>>];
             match self.parse_with_config_and_uninit_headers(buf, config, &mut *headers) {
-                Ok(Status::Complete(idx)) => Ok(Status::Complete(idx)),
+                Ok(Status::Complete(idx)) => {
+                    //
+                    Ok(Status::Complete(idx))
+                },
                 other => {
                     // put the original headers back
                     self.headers = &mut *(headers as *mut [Header<'_>]);
